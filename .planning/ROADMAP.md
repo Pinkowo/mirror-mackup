@@ -13,7 +13,7 @@
 ## Phase Details
 
 ### Phase 1: Foundation
-**Goal:** Stand up the Next.js project with database, seed data, browsable model and product catalogs, and a working FAL.ai API proxy ready to receive generation requests.
+**Goal:** As a 消費者, I want to 選擇模特和產品組合以準備試妝, so that 我可以找到想試的產品組合，準備進行 AI 試妝.
 **Mode:** mvp
 **Days:** 1–2
 **Requirements:** MOD-01, MOD-02, PROD-01, PROD-02, PROD-03, PROD-04, INFRA-01, INFRA-02
