@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Model {
+  id          String       @id @default(cuid())
+  name        String
+  imageUrl    String
+  skinTone    String
+  description String       @default("")
+  generations Generation[]
+  createdAt   DateTime     @default(now())
+}
+
+model Product {
+  id                String   @id @default(cuid())
+  name              String
+  brand             String
+  category          String
+  colorHex          String
+  price             Float    @default(0)
+  promptDescription String
+  createdAt         DateTime @default(now())
+}
+
+model Generation {
+  id         String   @id @default(cuid())
+  modelId    String
+  model      Model    @relation(fields: [modelId], references: [id])
+  productIds String
+  prompt     String
+  resultUrl  String?
+  status     String   @default("pending")
+  createdAt  DateTime @default(now())
+}

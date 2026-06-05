@@ -32,7 +32,7 @@ DATABASE_URL="file:./dev.db"
 
 - [x] T00 — Project initialized (Next.js not yet, only planning files exist)
 - [x] T01 — Next.js 14 project init
-- [ ] T02 — Prisma schema + SQLite setup
+- [x] T02 — Prisma schema + SQLite setup
 - [ ] T03 — Seed data script
 - [ ] T04 — API routes: /api/models + /api/products
 - [ ] T05 — Model selection UI
