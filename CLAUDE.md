@@ -139,3 +139,65 @@
 - **每個階段結束後主動提示下一階段**，不讓流程斷掉
 - 如果我直接開始做事但跳過了重要步驟（例如沒有 spec 就直接寫 code），**提醒我**
 - 如果我說「隨便」或「你決定」，就直接建議最保守、最不會出錯的選項
+
+<!-- GSD:project-start source:PROJECT.md -->
+## Project
+
+**Mirror Makeup**
+
+Mirror Makeup 是一個 B2C AI 試妝 web app，讓消費者在品牌簽約模特臉上自由組合化妝品（口紅、眼影、粉底），透過 FAL.ai 即時生成 AI 試妝照。這是 Mirror Mirror AI 服裝試穿平台的延伸產品，將同樣的「AI 取代棚拍」概念應用到化妝品市場。
+
+**Core Value:** 消費者在 30 秒內看到「這個口紅 + 這個眼影」實際上臉的效果，而不是看色票。
+
+### Constraints
+
+- **Timeline**: 7 天，面試前完成
+- **Tech Stack**: Next.js 14 (App Router) + Vercel Postgres + FAL.ai + Vercel 部署
+- **Budget**: Vercel 免費方案 + FAL.ai pay-per-use（demo 預算 < $5）
+- **No Auth**: 無用戶登入，降低複雜度
+- **No User Photo Upload**: 預設模特照片，品質可控
+<!-- GSD:project-end -->
+
+<!-- GSD:stack-start source:STACK.md -->
+## Technology Stack
+
+Technology stack not yet documented. Will populate after codebase mapping or first phase.
+<!-- GSD:stack-end -->
+
+<!-- GSD:conventions-start source:CONVENTIONS.md -->
+## Conventions
+
+Conventions not yet established. Will populate as patterns emerge during development.
+<!-- GSD:conventions-end -->
+
+<!-- GSD:architecture-start source:ARCHITECTURE.md -->
+## Architecture
+
+Architecture not yet mapped. Follow existing patterns found in the codebase.
+<!-- GSD:architecture-end -->
+
+<!-- GSD:skills-start source:skills/ -->
+## Project Skills
+
+No project skills found. Add skills to any of: `.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, `.github/skills/`, or `.codex/skills/` with a `SKILL.md` index file.
+<!-- GSD:skills-end -->
+
+<!-- GSD:workflow-start source:GSD defaults -->
+## GSD Workflow Enforcement
+
+Before using Edit, Write, or other file-changing tools, start work through a GSD command so planning artifacts and execution context stay in sync.
+
+Use these entry points:
+- `/gsd-quick` for small fixes, doc updates, and ad-hoc tasks
+- `/gsd-debug` for investigation and bug fixing
+- `/gsd-execute-phase` for planned phase work
+
+Do not make direct repo edits outside a GSD workflow unless the user explicitly asks to bypass it.
+<!-- GSD:workflow-end -->
+
+<!-- GSD:profile-start -->
+## Developer Profile
+
+> Profile not yet configured. Run `/gsd-profile-user` to generate your developer profile.
+> This section is managed by `generate-claude-profile` -- do not edit manually.
+<!-- GSD:profile-end -->
