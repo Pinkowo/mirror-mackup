@@ -31,7 +31,7 @@ DATABASE_URL="file:./dev.db"
 ## Task List
 
 - [x] T00 — Project initialized (Next.js not yet, only planning files exist)
-- [ ] T01 — Next.js 14 project init
+- [x] T01 — Next.js 14 project init
 - [ ] T02 — Prisma schema + SQLite setup
 - [ ] T03 — Seed data script
 - [ ] T04 — API routes: /api/models + /api/products
