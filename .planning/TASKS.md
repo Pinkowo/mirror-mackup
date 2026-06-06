@@ -33,18 +33,18 @@ DATABASE_URL="file:./dev.db"
 - [x] T00 — Project initialized (Next.js not yet, only planning files exist)
 - [x] T01 — Next.js 14 project init
 - [x] T02 — Prisma schema + SQLite setup
-- [ ] T03 — Seed data script
-- [ ] T04 — API routes: /api/models + /api/products
-- [ ] T05 — Model selection UI
-- [ ] T06 — Product catalog UI
-- [ ] T07 — POST /api/generate (mock mode)
-- [ ] T08 — GET /api/generate/[id] (polling)
-- [ ] T09 — Try-on page: model + product selection + generate button
-- [ ] T10 — Polling logic + loading state + error handling
-- [ ] T11 — Before/After slider component
-- [ ] T12 — Showcase page
-- [ ] T13 — UI polish + RWD
-- [ ] T14 — Vercel deploy config + env example
+- [x] T03 — Seed data script
+- [x] T04 — API routes: /api/models + /api/products
+- [x] T05 — Model selection UI
+- [x] T06 — Product catalog UI
+- [x] T07 — POST /api/generate (mock mode)
+- [x] T08 — GET /api/generate/[id] (polling)
+- [x] T09 — Try-on page: model + product selection + generate button
+- [x] T10 — Polling logic + loading state + error handling
+- [x] T11 — Before/After slider component
+- [x] T12 — Showcase page
+- [x] T13 — UI polish + RWD
+- [x] T14 — Vercel deploy config + env example
 
 ---
 
