@@ -13,9 +13,9 @@ interface Product {
 }
 
 const CATEGORIES = [
-  { key: 'lipstick', label: '💄 Lip' },
-  { key: 'eyeshadow', label: '👁 Eye' },
-  { key: 'foundation', label: '✨ Base' },
+  { key: 'lipstick', label: 'Lip' },
+  { key: 'eyeshadow', label: 'Eye' },
+  { key: 'foundation', label: 'Base' },
 ]
 
 interface ProductSelectorProps {
