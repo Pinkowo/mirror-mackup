@@ -2,12 +2,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const SHOWCASE_ITEMS = [
-  { id: 'sc-1', modelName: 'Aria', look: 'Ruby Kiss + Smoky Noir', imageUrl: '/models/model-1.jpg' },
-  { id: 'sc-2', modelName: 'Maya', look: 'Coral Reef + Bronze Goddess', imageUrl: 'https://picsum.photos/id/64/800/1000' },
-  { id: 'sc-3', modelName: 'Zara', look: 'Berry Crush + Ocean Depth', imageUrl: 'https://picsum.photos/id/177/800/1000' },
-  { id: 'sc-4', modelName: 'Aria', look: 'Rose Petal + Rose Gold Dream', imageUrl: '/models/model-1.jpg' },
-  { id: 'sc-5', modelName: 'Maya', look: 'Nude Velvet + Earth & Stone', imageUrl: 'https://picsum.photos/id/219/800/1000' },
-  { id: 'sc-6', modelName: 'Zara', look: 'Ruby Kiss + Bronze Goddess', imageUrl: 'https://picsum.photos/id/325/800/1000' },
+  { id: 'sc-1', modelName: 'Aria', look: 'Ruby Kiss + Smoky Noir', imageUrl: '/models/model-1.jpg', priority: true },
+  { id: 'sc-2', modelName: 'Maya', look: 'Coral Reef + Bronze Goddess', imageUrl: 'https://picsum.photos/seed/maya-coral/800/1000', priority: true },
+  { id: 'sc-3', modelName: 'Zara', look: 'Berry Crush + Ocean Depth', imageUrl: 'https://picsum.photos/seed/zara-berry/800/1000', priority: false },
+  { id: 'sc-4', modelName: 'Aria', look: 'Rose Petal + Rose Gold Dream', imageUrl: '/models/model-1.jpg', priority: false },
+  { id: 'sc-5', modelName: 'Maya', look: 'Nude Velvet + Earth & Stone', imageUrl: 'https://picsum.photos/seed/maya-nude/800/1000', priority: false },
+  { id: 'sc-6', modelName: 'Zara', look: 'Ruby Kiss + Bronze Goddess', imageUrl: 'https://picsum.photos/seed/zara-ruby/800/1000', priority: false },
 ]
 
 export default function ShowcasePage() {
@@ -33,7 +33,7 @@ export default function ShowcasePage() {
           {SHOWCASE_ITEMS.map((item) => (
             <div key={item.id} className="rounded-2xl overflow-hidden bg-white shadow-sm">
               <div className="relative aspect-[4/5] bg-neutral-100">
-                <Image src={item.imageUrl} alt={`${item.modelName} — ${item.look}`} fill className="object-cover" />
+                <Image src={item.imageUrl} alt={`${item.modelName} — ${item.look}`} fill sizes="(max-width: 672px) 50vw, 336px" priority={item.priority} className="object-cover" />
               </div>
               <div className="p-3">
                 <p className="text-sm font-medium text-neutral-900">{item.modelName}</p>
