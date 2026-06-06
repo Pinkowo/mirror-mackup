@@ -83,7 +83,7 @@ export default function TryOnPage() {
               : 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
           }`}
         >
-          {generating ? 'Generating...' : 'Generate Look ✨'}
+          {generating ? 'Generating...' : 'Generate Look'}
         </button>
 
         {error && (
