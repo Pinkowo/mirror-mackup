@@ -34,6 +34,7 @@ export function ModelCard({ model, selected, onSelect }: ModelCardProps) {
           src={model.imageUrl}
           alt={model.name}
           fill
+          sizes="(max-width: 448px) 33vw, 148px"
           className="object-cover relative z-10"
           onError={(e) => {
             e.currentTarget.style.display = 'none'
