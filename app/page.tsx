@@ -1,101 +1,57 @@
-import Image from "next/image";
+import Link from 'next/link'
+import Image from 'next/image'
 
-export default function Home() {
+const SHOWCASE_ITEMS = [
+  { id: 'sc-1', modelName: 'Aria', look: 'Ruby Kiss + Smoky Noir', imageUrl: 'https://picsum.photos/seed/sc1/800/1000' },
+  { id: 'sc-2', modelName: 'Maya', look: 'Coral Reef + Bronze Goddess', imageUrl: 'https://picsum.photos/seed/sc2/800/1000' },
+  { id: 'sc-3', modelName: 'Zara', look: 'Berry Crush + Ocean Depth', imageUrl: 'https://picsum.photos/seed/sc3/800/1000' },
+  { id: 'sc-4', modelName: 'Aria', look: 'Rose Petal + Rose Gold Dream', imageUrl: 'https://picsum.photos/seed/sc4/800/1000' },
+  { id: 'sc-5', modelName: 'Maya', look: 'Nude Velvet + Earth & Stone', imageUrl: 'https://picsum.photos/seed/sc5/800/1000' },
+  { id: 'sc-6', modelName: 'Zara', look: 'Ruby Kiss + Bronze Goddess', imageUrl: 'https://picsum.photos/seed/sc6/800/1000' },
+]
+
+export default function ShowcasePage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-neutral-50">
+      <header className="bg-white border-b border-neutral-100 px-4 pt-12 pb-8 text-center">
+        <p className="text-xs font-semibold tracking-widest text-rose-400 uppercase mb-2">Mirror Makeup</p>
+        <h1 className="text-3xl font-bold text-neutral-900 mb-2">AI Beauty Try-On</h1>
+        <p className="text-neutral-500 text-sm max-w-xs mx-auto">
+          See exactly how products look on real models — before you buy.
+        </p>
+        <Link
+          href="/try-on"
+          className="inline-block mt-6 px-8 py-3 bg-rose-400 hover:bg-rose-500 text-white font-semibold rounded-full shadow-lg shadow-rose-100 transition-all duration-200"
+        >
+          Try It On →
+        </Link>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <main className="max-w-2xl mx-auto px-4 py-8">
+        <h2 className="text-sm font-semibold text-neutral-500 uppercase tracking-wide mb-4">Featured Looks</h2>
+        <div className="grid grid-cols-2 gap-3">
+          {SHOWCASE_ITEMS.map((item) => (
+            <div key={item.id} className="rounded-2xl overflow-hidden bg-white shadow-sm">
+              <div className="relative aspect-[4/5] bg-neutral-100">
+                <Image src={item.imageUrl} alt={`${item.modelName} — ${item.look}`} fill className="object-cover" />
+              </div>
+              <div className="p-3">
+                <p className="text-sm font-medium text-neutral-900">{item.modelName}</p>
+                <p className="text-xs text-neutral-400 mt-0.5">{item.look}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <Link
+            href="/try-on"
+            className="inline-block px-8 py-3 border-2 border-rose-200 text-rose-500 font-semibold rounded-full hover:bg-rose-50 transition-all duration-200"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Create Your Own Look →
+          </Link>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
-  );
+  )
 }
