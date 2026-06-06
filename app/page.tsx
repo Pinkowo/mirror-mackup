@@ -2,12 +2,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const SHOWCASE_ITEMS = [
-  { id: 'sc-1', modelName: 'Aria', look: 'Ruby Kiss + Smoky Noir', imageUrl: 'https://picsum.photos/seed/sc1/800/1000' },
-  { id: 'sc-2', modelName: 'Maya', look: 'Coral Reef + Bronze Goddess', imageUrl: 'https://picsum.photos/seed/sc2/800/1000' },
-  { id: 'sc-3', modelName: 'Zara', look: 'Berry Crush + Ocean Depth', imageUrl: 'https://picsum.photos/seed/sc3/800/1000' },
-  { id: 'sc-4', modelName: 'Aria', look: 'Rose Petal + Rose Gold Dream', imageUrl: 'https://picsum.photos/seed/sc4/800/1000' },
-  { id: 'sc-5', modelName: 'Maya', look: 'Nude Velvet + Earth & Stone', imageUrl: 'https://picsum.photos/seed/sc5/800/1000' },
-  { id: 'sc-6', modelName: 'Zara', look: 'Ruby Kiss + Bronze Goddess', imageUrl: 'https://picsum.photos/seed/sc6/800/1000' },
+  { id: 'sc-1', modelName: 'Aria', look: 'Ruby Kiss + Smoky Noir', imageUrl: '/models/model-1.jpg' },
+  { id: 'sc-2', modelName: 'Maya', look: 'Coral Reef + Bronze Goddess', imageUrl: 'https://picsum.photos/id/64/800/1000' },
+  { id: 'sc-3', modelName: 'Zara', look: 'Berry Crush + Ocean Depth', imageUrl: 'https://picsum.photos/id/177/800/1000' },
+  { id: 'sc-4', modelName: 'Aria', look: 'Rose Petal + Rose Gold Dream', imageUrl: '/models/model-1.jpg' },
+  { id: 'sc-5', modelName: 'Maya', look: 'Nude Velvet + Earth & Stone', imageUrl: 'https://picsum.photos/id/219/800/1000' },
+  { id: 'sc-6', modelName: 'Zara', look: 'Ruby Kiss + Bronze Goddess', imageUrl: 'https://picsum.photos/id/325/800/1000' },
 ]
 
 export default function ShowcasePage() {
