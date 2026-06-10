@@ -2,8 +2,9 @@ import 'dotenv/config'
 import { PrismaLibSql } from '@prisma/adapter-libsql'
 import { PrismaClient } from '../app/generated/prisma/client'
 
-const url = process.env.DATABASE_URL ?? 'file:dev.db'
-const adapter = new PrismaLibSql({ url })
+const url = process.env.TURSO_DATABASE_URL ?? process.env.DATABASE_URL ?? 'file:dev.db'
+const authToken = process.env.TURSO_AUTH_TOKEN
+const adapter = new PrismaLibSql({ url, authToken })
 const prisma = new PrismaClient({ adapter })
 
 async function main() {
@@ -14,8 +15,6 @@ async function main() {
   await prisma.model.createMany({
     data: [
       { id: 'model-1', name: 'Aria', imageUrl: '/models/model-1.jpg', skinTone: 'fair', description: 'Fair skin, versatile look' },
-      { id: 'model-2', name: 'Maya', imageUrl: '/models/model-2.jpg', skinTone: 'medium', description: 'Medium skin, warm undertones' },
-      { id: 'model-3', name: 'Zara', imageUrl: '/models/model-3.jpg', skinTone: 'deep', description: 'Deep skin, cool undertones' },
     ],
   })
 
@@ -37,7 +36,7 @@ async function main() {
     ],
   })
 
-  console.log('✓ Seed complete: 3 models, 5 lipsticks, 5 eyeshadows, 3 foundations')
+  console.log('✓ Seed complete: 1 model, 5 lipsticks, 5 eyeshadows, 3 foundations')
 }
 
 main().catch(console.error).finally(() => prisma.$disconnect())
