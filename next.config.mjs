@@ -7,6 +7,12 @@ const nextConfig = {
       { protocol: 'https', hostname: '*.fal.ai' },
     ],
   },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.resolve.alias['@libsql/client'] = '@libsql/client/node'
+    }
+    return config
+  },
 }
 
 export default nextConfig

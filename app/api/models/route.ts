@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
-    const models = await prisma.model.findMany({
-      orderBy: { name: 'asc' },
-    })
-    return NextResponse.json(models)
+    const result = await db.execute('SELECT id, name, imageUrl, skinTone, description, createdAt FROM Model ORDER BY name ASC')
+    return NextResponse.json(result.rows)
   } catch {
     return NextResponse.json({ error: 'Failed to fetch models' }, { status: 500 })
   }
