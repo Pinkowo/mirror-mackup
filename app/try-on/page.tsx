@@ -17,7 +17,7 @@ import '@xyflow/react/dist/style.css'
 import Link from 'next/link'
 import { ModelNode } from '@/components/canvas/ModelNode'
 import { ProductNode } from '@/components/canvas/ProductNode'
-import { CategoryLabelNode } from '@/components/canvas/CategoryLabelNode'
+import { CategoryGroupNode } from '@/components/canvas/CategoryGroupNode'
 import { ResultDisplay } from '@/components/ResultDisplay'
 
 interface Product {
@@ -31,18 +31,17 @@ interface Model {
 const MODEL_ID = 'model-node'
 const CARD_W = 176
 const CARD_H = 64
+const GAP_X = 12
+const GAP_Y = 10
+const GROUP_PADDING = 14
+const GROUP_LABEL_H = 30
 
-// Returns [x, y] positions for N items arranged around a cluster center
-function clusterPositions(cx: number, cy: number, count: number, cols = 2): [number, number][] {
-  const gapX = 12, gapY = 10
+// Bounding box for a category cluster
+function groupBounds(count: number, cols: number) {
   const rows = Math.ceil(count / cols)
-  const totalW = cols * CARD_W + (cols - 1) * gapX
-  const totalH = rows * CARD_H + (rows - 1) * gapY
-  return Array.from({ length: count }, (_, i) => {
-    const col = i % cols
-    const row = Math.floor(i / cols)
-    return [cx - totalW / 2 + col * (CARD_W + gapX), cy - totalH / 2 + row * (CARD_H + gapY)]
-  })
+  const w = cols * CARD_W + (cols - 1) * GAP_X + GROUP_PADDING * 2
+  const h = rows * CARD_H + (rows - 1) * GAP_Y + GROUP_LABEL_H + GROUP_PADDING * 2
+  return { w, h, rows }
 }
 
 // Category layout: cluster center (cx, cy) and label
@@ -71,7 +70,7 @@ function FitViewOnLoad({ ready }: { ready: boolean }) {
 const nodeTypes: NodeTypes = {
   model: ModelNode as unknown as NodeTypes[string],
   product: ProductNode as unknown as NodeTypes[string],
-  categoryLabel: CategoryLabelNode as unknown as NodeTypes[string],
+  categoryGroup: CategoryGroupNode as unknown as NodeTypes[string],
 }
 
 export default function TryOnPage() {
@@ -105,7 +104,7 @@ export default function TryOnPage() {
     products[cat]?.find(p => p.id === id)
   ).filter((p): p is Product => p !== undefined)
 
-  // Build nodes whenever model or products change
+  // Build nodes whenever model, products, or selection changes
   useEffect(() => {
     if (!model) return
     const newNodes: Node[] = []
@@ -126,28 +125,39 @@ export default function TryOnPage() {
       draggable: false,
     })
 
-    // Product nodes
+    // Group nodes first (must precede their children in the array)
     Object.entries(LAYOUT).forEach(([cat, layout]) => {
       const catProducts = products[cat] ?? []
       if (!catProducts.length) return
-
-      // Category label
+      const cols = layout.cols ?? 2
+      const { w, h } = groupBounds(catProducts.length, cols)
       newNodes.push({
-        id: `label-${cat}`,
-        type: 'categoryLabel',
-        position: { x: layout.cx - 60, y: layout.cy - Math.ceil(catProducts.length / (layout.cols ?? 2)) * (CARD_H + 10) / 2 - 30 },
+        id: `group-${cat}`,
+        type: 'categoryGroup',
+        position: { x: layout.cx - w / 2, y: layout.cy - h / 2 },
+        style: { width: w, height: h },
         data: { label: layout.label },
-        draggable: false,
         selectable: false,
+        zIndex: 0,
       })
+    })
 
-      // Product cards
-      const positions = clusterPositions(layout.cx, layout.cy, catProducts.length, layout.cols ?? 2)
+    // Product nodes with positions relative to their group
+    Object.entries(LAYOUT).forEach(([cat, layout]) => {
+      const catProducts = products[cat] ?? []
+      if (!catProducts.length) return
+      const cols = layout.cols ?? 2
       catProducts.forEach((product, i) => {
+        const col = i % cols
+        const row = Math.floor(i / cols)
         newNodes.push({
           id: product.id,
           type: 'product',
-          position: { x: positions[i][0], y: positions[i][1] },
+          position: {
+            x: col * (CARD_W + GAP_X) + GROUP_PADDING,
+            y: row * (CARD_H + GAP_Y) + GROUP_LABEL_H + GROUP_PADDING,
+          },
+          parentId: `group-${cat}`,
           data: {
             productId: product.id,
             name: product.name,
@@ -159,6 +169,7 @@ export default function TryOnPage() {
             selected: selectedByCategory[cat] === product.id,
             onSelect: handleProductSelect,
           },
+          zIndex: 1,
         })
       })
     })
