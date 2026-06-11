@@ -4,6 +4,25 @@
 
 @layer base {
   body {
-    @apply bg-neutral-50 text-neutral-900;
+    @apply bg-black text-white;
   }
+}
+
+/* React Flow dark theme overrides */
+.react-flow__background {
+  background-color: #000 !important;
+}
+.react-flow__attribution {
+  display: none;
+}
+.react-flow__edge-path {
+  stroke: #fb7185;
+  stroke-width: 1.5;
+}
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 6;
+  animation: dashdraw 0.8s linear infinite;
+}
+@keyframes dashdraw {
+  to { stroke-dashoffset: -12; }
 }

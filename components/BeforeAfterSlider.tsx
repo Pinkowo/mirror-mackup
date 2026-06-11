@@ -38,13 +38,13 @@ export function BeforeAfterSlider({
       onTouchMove={(e) => updatePosition(e.touches[0].clientX)}
       onTouchStart={(e) => updatePosition(e.touches[0].clientX)}
     >
-      <Image src={afterUrl} alt={afterLabel} fill sizes="(max-width: 448px) 100vw, 448px" className="object-cover" />
+      <Image src={afterUrl} alt={afterLabel} fill sizes="(max-width: 448px) 100vw, 448px" className="object-cover" unoptimized />
 
       <div
         className="absolute inset-0 overflow-hidden"
         style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
       >
-        <Image src={beforeUrl} alt={beforeLabel} fill sizes="(max-width: 448px) 100vw, 448px" className="object-cover" />
+        <Image src={beforeUrl} alt={beforeLabel} fill sizes="(max-width: 448px) 100vw, 448px" className="object-cover" unoptimized />
       </div>
 
       <div
