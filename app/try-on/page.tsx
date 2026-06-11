@@ -271,7 +271,7 @@ export default function TryOnPage() {
                           <div key={product.id} className="flex items-center gap-3">
                             <div className="w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 bg-zinc-800">
                               {product.imageUrl ? (
-                                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+                                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" /> // eslint-disable-line @next/next/no-img-element
                               ) : (
                                 <div className="w-full h-full" style={{ backgroundColor: colors[0] }} />
                               )}
