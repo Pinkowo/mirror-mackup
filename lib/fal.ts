@@ -1,13 +1,38 @@
-export function buildMakeupPrompt(productDescriptions: string[]): string {
-  const makeupList = productDescriptions.join(', ')
-  return `Professional beauty portrait of a model wearing ${makeupList}. High-end cosmetics photography, studio lighting, sharp focus, photorealistic, 8k quality.`
+import * as fs from 'fs'
+import * as path from 'path'
+
+const CATEGORY_ZONES: Record<string, string> = {
+  lipstick:   'lips only',
+  eyeshadow:  'eyelids only',
+  eyeliner:   'eyeliner lines only',
+  mascara:    'eyelashes only',
+  blush:      'cheeks only',
+  contour:    'face contour only',
+  foundation: 'overall skin (change finish/texture only, preserve the original skin tone)',
+}
+
+const ALL_CATEGORIES = Object.keys(CATEGORY_ZONES)
+
+export function buildMakeupPrompt(products: Array<{ category: string; description: string }>): string {
+  const selectedCategories = new Set(products.map(p => p.category))
+  const excluded = ALL_CATEGORIES.filter(c => !selectedCategories.has(c))
+
+  const applyLines = products
+    .map(p => `• ${p.description} (apply to ${CATEGORY_ZONES[p.category] ?? p.category})`)
+    .join('\n')
+
+  const doNotLines = excluded
+    .map(c => `• Do NOT add or modify ${c}`)
+    .join('\n')
+
+  return `You are a professional makeup artist retouching a photo. Apply ONLY these specific products:\n${applyLines}\n\nStrict rules:\n${doNotLines}\n• Do NOT add concealer, primer, setting powder, highlighter, or any unlisted product\n• Keep ALL other facial features exactly as in the original photo\n• Keep the exact same framing, zoom, background, hair, and clothing\n• Photorealistic result`
 }
 
 export async function generateMakeup(
   imageUrl: string,
   prompt: string
 ): Promise<{ imageUrl: string; requestId: string }> {
-  const apiKey = process.env.FAL_KEY
+  const apiKey = process.env.OPENAI_API_KEY
 
   if (!apiKey || apiKey === 'mock') {
     await new Promise((resolve) => setTimeout(resolve, 3000))
@@ -17,20 +42,34 @@ export async function generateMakeup(
     }
   }
 
-  const { fal } = await import('@fal-ai/client')
-  fal.config({ credentials: apiKey })
+  const { default: OpenAI, toFile } = await import('openai')
+  const client = new OpenAI({ apiKey })
 
-  const result = await fal.subscribe('fal-ai/image-editing/realism', {
-    input: {
-      image_url: imageUrl,
-      prompt,
-      negative_prompt: 'cartoon, illustration, deformed, unrealistic skin, bad makeup, blurry',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as unknown as any,
+  let imageFile: Awaited<ReturnType<typeof toFile>>
+
+  if (imageUrl.startsWith('http')) {
+    const response = await fetch(imageUrl)
+    const buffer = await response.arrayBuffer()
+    imageFile = await toFile(Buffer.from(buffer), 'model.jpg', { type: 'image/jpeg' })
+  } else {
+    const localPath = path.join(process.cwd(), 'public', imageUrl)
+    const buffer = fs.readFileSync(localPath)
+    imageFile = await toFile(buffer, 'model.jpg', { type: 'image/jpeg' })
+  }
+
+  const result = await client.images.edit({
+    model: 'gpt-image-1',
+    image: imageFile,
+    prompt,
+    n: 1,
+    size: '1024x1024',
   })
 
+  const b64 = result.data?.[0]?.b64_json
+  if (!b64) throw new Error('No image data returned from OpenAI')
+
   return {
-    imageUrl: (result.data as { images: { url: string }[] }).images[0].url,
-    requestId: result.requestId,
+    imageUrl: `data:image/png;base64,${b64}`,
+    requestId: String(result.created),
   }
 }

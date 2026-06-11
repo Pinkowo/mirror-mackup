@@ -18,9 +18,11 @@ export async function POST(request: Request) {
     const model = modelResult.rows[0]
 
     const placeholders = productIds.map(() => '?').join(',')
-    const productsResult = await db.execute({ sql: `SELECT id, promptDescription FROM Product WHERE id IN (${placeholders})`, args: productIds })
+    const productsResult = await db.execute({ sql: `SELECT id, category, promptDescription FROM Product WHERE id IN (${placeholders})`, args: productIds })
 
-    const prompt = buildMakeupPrompt(productsResult.rows.map((p) => p.promptDescription as string))
+    const prompt = buildMakeupPrompt(
+      productsResult.rows.map((p) => ({ category: p.category as string, description: p.promptDescription as string }))
+    )
 
     const generationId = randomUUID()
     const now = new Date().toISOString()
@@ -29,11 +31,13 @@ export async function POST(request: Request) {
       args: [generationId, modelId, JSON.stringify(productIds), prompt, 'processing', now],
     })
 
+    console.log(`[generate] calling OpenAI — generationId: ${generationId}`)
     generateMakeup(model.imageUrl as string, prompt)
       .then(async ({ imageUrl }) => {
         await db.execute({ sql: 'UPDATE Generation SET status = ?, resultUrl = ? WHERE id = ?', args: ['done', imageUrl, generationId] })
       })
-      .catch(async () => {
+      .catch(async (err) => {
+        console.error('[generate] FAL error:', err)
         await db.execute({ sql: 'UPDATE Generation SET status = ? WHERE id = ?', args: ['error', generationId] })
       })
 
