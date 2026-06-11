@@ -84,6 +84,8 @@ export default function TryOnPage() {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
 
+  const handleGenerateRef = useRef<() => Promise<void>>(async () => {})
+
   // Fetch model and products
   useEffect(() => {
     fetch('/api/models').then(r => r.json()).then((data: Model[]) => setModel(data[0] ?? null))
@@ -104,7 +106,7 @@ export default function TryOnPage() {
     products[cat]?.find(p => p.id === id)
   ).filter((p): p is Product => p !== undefined)
 
-  // Build nodes whenever model, products, or selection changes
+  // Build nodes whenever model or products change
   useEffect(() => {
     if (!model) return
     const newNodes: Node[] = []
@@ -118,9 +120,9 @@ export default function TryOnPage() {
         name: model.name,
         imageUrl: model.imageUrl,
         skinTone: model.description,
-        canGenerate: selectedProductIds.length > 0 && !generating,
-        generating,
-        onGenerate: handleGenerate,
+        canGenerate: false,
+        generating: false,
+        onGenerate: () => handleGenerateRef.current(),
       },
       draggable: false,
     })
@@ -166,7 +168,7 @@ export default function TryOnPage() {
             colorHex: product.colorHex,
             colorHexes: product.colorHexes,
             category: cat,
-            selected: selectedByCategory[cat] === product.id,
+            selected: false,
             onSelect: handleProductSelect,
           },
           zIndex: 1,
@@ -176,7 +178,34 @@ export default function TryOnPage() {
 
     setNodes(newNodes)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [model, products, selectedByCategory, generating])
+  }, [model, products])
+
+  // Update only data fields when selection or generating state changes — preserves dragged positions
+  useEffect(() => {
+    setNodes(prev => prev.map(node => {
+      if (node.id === MODEL_ID) {
+        return {
+          ...node,
+          data: {
+            ...(node.data as object),
+            canGenerate: selectedProductIds.length > 0 && !generating,
+            generating,
+          },
+        }
+      }
+      if (node.type === 'product') {
+        const d = node.data as { category: string; productId: string }
+        return {
+          ...node,
+          data: {
+            ...(node.data as object),
+            selected: selectedByCategory[d.category] === d.productId,
+          },
+        }
+      }
+      return node
+    }))
+  }, [selectedByCategory, generating, selectedProductIds.length])
 
   // Sync edges with selection
   useEffect(() => {
@@ -222,6 +251,7 @@ export default function TryOnPage() {
       setGenerating(false)
     }
   }
+  handleGenerateRef.current = handleGenerate
 
   return (
     <div className="w-screen h-screen bg-black flex flex-col">
