@@ -5,6 +5,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'picsum.photos' },
       { protocol: 'https', hostname: 'fal.media' },
       { protocol: 'https', hostname: '*.fal.ai' },
+      { protocol: 'https', hostname: 'media.ultainc.com' },
     ],
   },
   webpack: (config, { isServer }) => {

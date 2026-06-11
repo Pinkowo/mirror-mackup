@@ -9,12 +9,18 @@ interface Product {
   brand: string
   category: string
   colorHex: string
+  colorHexes: string | null
+  imageUrl: string | null
   price: number
 }
 
 const CATEGORIES = [
   { key: 'lipstick', label: 'Lip' },
-  { key: 'eyeshadow', label: 'Eye' },
+  { key: 'eyeshadow', label: 'Eye Shadow' },
+  { key: 'eyeliner', label: 'Eyeliner' },
+  { key: 'mascara', label: 'Mascara' },
+  { key: 'blush', label: 'Blush' },
+  { key: 'contour', label: 'Contour' },
   { key: 'foundation', label: 'Base' },
 ]
 
@@ -47,24 +53,28 @@ export function ProductSelector({ selectedIds, onToggle }: ProductSelectorProps)
   }
 
   return (
-    <div className="space-y-4">
-      {CATEGORIES.map((cat) => (
-        <div key={cat.key}>
-          <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-2">
-            {cat.label}
-          </p>
-          <div className="grid grid-cols-2 gap-2">
-            {(products[cat.key] || []).map((product) => (
-              <ProductChip
-                key={product.id}
-                product={product}
-                selected={selectedIds.includes(product.id)}
-                onSelect={(id) => onToggle(id, cat.key)}
-              />
-            ))}
+    <div className="space-y-5">
+      {CATEGORIES.map((cat) => {
+        const items = products[cat.key] || []
+        if (!items.length) return null
+        return (
+          <div key={cat.key}>
+            <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-2">
+              {cat.label}
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {items.map((product) => (
+                <ProductChip
+                  key={product.id}
+                  product={product}
+                  selected={selectedIds.includes(product.id)}
+                  onSelect={(id) => onToggle(id, cat.key)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }
