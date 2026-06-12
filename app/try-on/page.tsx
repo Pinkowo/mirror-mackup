@@ -257,7 +257,7 @@ export default function TryOnPage() {
     <div className="w-screen h-screen bg-black flex flex-col">
       {/* Header */}
       <header className="flex-shrink-0 flex items-center justify-between px-6 py-3 border-b border-zinc-900 bg-black/80 backdrop-blur z-10">
-        <Link href="/" className="text-xs text-zinc-500 hover:text-white transition-colors">← Mirror Makeup</Link>
+        <Link href="/" className="text-xs text-zinc-500 hover:text-white transition-colors">← Facetura</Link>
         <p className="text-sm font-semibold tracking-wide text-white">Try It On</p>
         <p className="text-xs text-zinc-600">Drag · Click to select · Generate</p>
       </header>

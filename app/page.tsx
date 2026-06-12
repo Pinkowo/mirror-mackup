@@ -15,7 +15,7 @@ export default function ShowcasePage() {
   return (
     <div className="min-h-screen bg-black">
       <header className="border-b border-zinc-900 px-4 pt-12 pb-8 text-center">
-        <p className="text-xs font-semibold tracking-widest text-rose-400 uppercase mb-2">Mirror Makeup</p>
+        <p className="text-xs font-semibold tracking-widest text-rose-400 uppercase mb-2">Facetura</p>
         <h1 className="text-3xl font-bold text-white mb-2">AI Beauty Try-On</h1>
         <p className="text-zinc-500 text-sm max-w-xs mx-auto">
           See exactly how products look on real models — before you buy.

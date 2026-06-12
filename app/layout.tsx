@@ -5,7 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Mirror Makeup — AI Beauty Try-On',
+  title: 'Facetura — AI Beauty Try-On',
   description: 'See exactly how makeup products look on real models before you buy.',
 }
 
